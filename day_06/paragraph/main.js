@@ -1,6 +1,6 @@
 const para = document.querySelector("p");
 
-// Lấy ra nội dung của thẻ p
+// Lấy ra nội dung của thẻ p jdkad
 let content = para.innerText;
 
 // Convert sang mảng
