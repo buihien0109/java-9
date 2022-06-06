@@ -3,3 +3,9 @@ text.txt
 *.txt
 
 test/
+
+.vscode
+
+.DS_Store
+
+node_modules/
