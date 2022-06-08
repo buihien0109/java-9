@@ -1,0 +1,14 @@
+img {
+    max-width: 100%;
+    display: block;
+    margin: auto;
+}
+
+.page-item.active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.page-link {
+    color: #198754;
+}
