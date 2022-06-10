@@ -12,3 +12,7 @@ img {
 .page-link {
     color: #198754;
 }
+
+footer p:hover {
+    text-decoration: underline;
+}
