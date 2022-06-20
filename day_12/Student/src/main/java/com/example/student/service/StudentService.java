@@ -1,10 +1,15 @@
 package com.example.student.service;
 
 import com.example.student.model.Student;
+import com.example.student.request.CreateStudentRequest;
+import com.example.student.request.UpdateStudentRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -28,5 +33,52 @@ public class StudentService {
     // Lấy danh sách học viên
     public List<Student> getStudents() {
         return students;
+    }
+
+    // Tìm kiếm sinh viên theo tên
+    public List<Student> searchStudent(String name) {
+        return students.stream()
+                .filter(student -> student.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    // Lấy thông tin của học viên
+    public Student getStudentById(int id) {
+        Optional<Student> studentOptional = students
+                .stream()
+                .filter(student -> student.getId() == id)
+                .findFirst();
+
+        return studentOptional.orElse(null);
+    }
+
+    public void deleteStudent(int id) {
+        // B1 : Kiểm tra xem student có tồn tại hay không
+
+        // B2 : Xóa user
+        students.removeIf(student -> student.getId() == id);
+    }
+
+    public Student createStudent(CreateStudentRequest request) {
+        // B1 : Kiểm tra xem email đã tồn tại hay chưa
+
+        // B2 : Tạo mới
+        Random rd = new Random();
+        Student student = new Student(rd.nextInt(100), request.getName(), request.getEmail());
+
+        students.add(student);
+        return student;
+    }
+
+    public Student updateStudent(int id, UpdateStudentRequest request) {
+        // B1 : Kiểm tra xem student có tồn tại hay không
+
+        for (Student student : students) {
+            if(student.getId() == id) {
+                student.setName(request.getName());
+                return student;
+            }
+        }
+        return null;
     }
 }
