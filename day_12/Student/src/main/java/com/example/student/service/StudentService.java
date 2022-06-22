@@ -1,5 +1,6 @@
 package com.example.student.service;
 
+import com.example.student.exception.BadRequestException;
 import com.example.student.exception.NotFoundException;
 import com.example.student.model.Student;
 import com.example.student.request.CreateStudentRequest;
@@ -72,6 +73,9 @@ public class StudentService {
 
     public Student createStudent(CreateStudentRequest request) {
         // B1 : Kiểm tra xem email đã tồn tại hay chưa
+        if(findByEmail(request.getEmail()).isPresent()) {
+            throw new BadRequestException("Email = " + request.getEmail() + " đã tồn tại");
+        }
 
         // B2 : Tạo mới
         Random rd = new Random();
@@ -82,15 +86,19 @@ public class StudentService {
     }
 
     public Student updateStudent(int id, UpdateStudentRequest request) {
-        // B1 : Kiểm tra xem student có tồn tại hay không
-
-        for (Student student : students) {
-            if(student.getId() == id) {
-                student.setName(request.getName());
-                return student;
-            }
+        // Kiểm tra xem student có tồn tại hay không
+        Optional<Student> studentOptional = findById(id);
+        if(studentOptional.isEmpty()) {
+            throw new NotFoundException("Không tìm thấy sinh viên có id = " + id);
         }
-        return null;
+
+        // Lấy ra thông tin của student
+        Student student = studentOptional.get();
+
+        // Set lại thông tin name
+        student.setName(request.getName());
+
+        return student;
     }
 
     // HELPER METHOD : Tìm kiếm sinh viên theo id -> Optional
@@ -98,6 +106,13 @@ public class StudentService {
         return students
                 .stream()
                 .filter(student -> student.getId() == id)
+                .findFirst();
+    }
+
+    public Optional<Student> findByEmail(String email) {
+        return students
+                .stream()
+                .filter(student -> student.getEmail().equals(email))
                 .findFirst();
     }
 }
