@@ -2,8 +2,6 @@ package com.example.helloworld;
 
 // Controller + ResponseBody = RestController
 
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,8 +27,8 @@ public class WebController {
     // users/1, users/10
     @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public User getUserById(@PathVariable int id) {
-        for (User user: users) {
-            if(user.getId() == id) {
+        for (User user : users) {
+            if (user.getId() == id) {
                 return user;
             }
         }

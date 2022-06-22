@@ -1,5 +1,6 @@
 package com.example.student.service;
 
+import com.example.student.exception.NotFoundException;
 import com.example.student.model.Student;
 import com.example.student.request.CreateStudentRequest;
 import com.example.student.request.UpdateStudentRequest;
@@ -44,16 +45,26 @@ public class StudentService {
 
     // Lấy thông tin của học viên
     public Student getStudentById(int id) {
-        Optional<Student> studentOptional = students
-                .stream()
-                .filter(student -> student.getId() == id)
-                .findFirst();
+        // Cách 1:
+//        Optional<Student> studentOptional = findById(id);
+//
+//        if(studentOptional.isPresent()) {
+//            return studentOptional.get();
+//        }
+//
+//        throw new NotFoundException("Không tìm thấy sinh viên có id = " + id);
 
-        return studentOptional.orElse(null);
+        // Cách 2:
+        return findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Không tìm thấy sinh viên có id = " + id);
+        });
     }
 
     public void deleteStudent(int id) {
         // B1 : Kiểm tra xem student có tồn tại hay không
+        if(findById(id).isEmpty()) {
+            throw new NotFoundException("Không tìm thấy sinh viên có id = " + id);
+        }
 
         // B2 : Xóa user
         students.removeIf(student -> student.getId() == id);
@@ -80,5 +91,13 @@ public class StudentService {
             }
         }
         return null;
+    }
+
+    // HELPER METHOD : Tìm kiếm sinh viên theo id -> Optional
+    public Optional<Student> findById(int id) {
+        return students
+                .stream()
+                .filter(student -> student.getId() == id)
+                .findFirst();
     }
 }
