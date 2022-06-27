@@ -1,11 +1,10 @@
 package vn.techmaster.todolist.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.techmaster.todolist.model.Todo;
+import vn.techmaster.todolist.request.CreateTodoRequest;
+import vn.techmaster.todolist.request.UpdateTodoRequest;
 import vn.techmaster.todolist.service.TodoService;
 
 import java.util.List;
@@ -24,5 +23,26 @@ public class TodoController {
     @GetMapping("/todos")
     public List<Todo> getTodos(@RequestParam(required = false, defaultValue = "") String status) {
         return todoService.getTodos(status);
+    }
+
+    // Tìm công việc theo id
+    @GetMapping("/todos/{id}")
+    public Todo getTodoById(@PathVariable int id){
+        return todoService.getTodoById(id);
+    }
+    //    3. Tạo mới todos
+    @PostMapping("/todos")
+    public Todo createTodo(@RequestBody CreateTodoRequest request){
+        return todoService.createTodo(request);
+    }
+    //    4. Cập nhật todos
+    @PutMapping("/todos/{id}")
+    public Todo updateTodo(@PathVariable int id, @RequestBody UpdateTodoRequest request){
+        return todoService.updateTodo(id,request);
+    }
+    //    5. Xóa todos
+    @DeleteMapping("/todos/{id}")
+    public void deleteTodo(@PathVariable int id){
+        todoService.deleteTodo(id);
     }
 }
