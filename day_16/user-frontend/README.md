@@ -13,19 +13,24 @@ Các thuộc tính của đối tượng user bao gồm:
 
 ### Chức năng
 
-- Hiển thị danh sách user
-- Xóa user
-- Tìm kiếm user theo tên
-- Thêm user
-- Xem chi tiết user
-- Đổi avatar
-    - Upload image
-    - Lấy danh sách image
-    - Tìm kiếm image
-    - Xóa image
-    - Xem image
-    - Download image
-    - Phân trang
-- Đổi password
-- Quên password
-- Cập nhật thông tin user
+- **Trang index**
+    - Hiển thị danh sách user
+    - Xóa user
+    - Tìm kiếm user theo tên
+
+- **Trang create**
+    - Thêm user
+
+- **Trang detail**
+    - Xem chi tiết user
+    - Đổi avatar
+        - Upload image
+        - Lấy danh sách image
+        - Tìm kiếm image
+        - Xóa image
+        - Xem image
+        - Download image
+        - Phân trang
+    - Đổi password
+    - Quên password
+    - Cập nhật thông tin user

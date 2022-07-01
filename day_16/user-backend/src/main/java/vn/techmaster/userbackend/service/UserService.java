@@ -1,10 +1,13 @@
 package vn.techmaster.userbackend.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.techmaster.userbackend.dto.UserDto;
 import vn.techmaster.userbackend.exception.NotFoundException;
 import vn.techmaster.userbackend.mapper.UserMapper;
 import vn.techmaster.userbackend.model.User;
+import vn.techmaster.userbackend.request.UpdatePasswordRequest;
+import vn.techmaster.userbackend.request.UpdateUserRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,10 @@ import java.util.stream.Collectors;
 public class UserService {
     // Lưu danh sách tất cả user
     private List<User> users;
+
+    @Autowired
+    private MailService mailService;
+
 
     // Tạo 1 số dữ liệu
     public UserService() {
@@ -60,5 +67,35 @@ public class UserService {
                 .stream()
                 .filter(user -> user.getId() == id)
                 .findFirst();
+    }
+
+    public UserDto getUserById(int id) {
+        // Kiểm tra xem user có tồn tại hay không
+        // Nếu không -> throw exception
+        // Nếu có -> trả về userDto
+        return null;
+    }
+
+    public UserDto updateUser(int id, UpdateUserRequest request) {
+        // Kiểm tra xem user có tồn tại hay không
+        // Nếu không -> throw exception
+        // Nếu có -> cập nhật lại thông tin của user theo các thông tin có trong request
+        return null;
+    }
+
+    public void updatePassword(int id, UpdatePasswordRequest request) {
+        // Kiểm tra xem user có tồn tại hay không
+        // Nếu không -> throw exception
+        // Kiểm tra password cũ có chính xác hay không
+        // Kiểm tra password mới có trùng với password cũ hay không
+        // Cập nhật password mới cho user
+    }
+
+    public String forgotPassword(int id) {
+        // Kiểm tra xem user có tồn tại hay không
+        // Nếu không -> throw exception
+        // Nếu có -> generate chuỗi password ngẫu nhiên -> cập nhật password cho user -> trả về kết quả
+        mailService.sendSimpleEmail("hien@techmaster.vn", "Quên mật khẩu", "111");
+        return null;
     }
 }
