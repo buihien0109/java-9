@@ -102,6 +102,7 @@ public class UserService {
         return null;
     }
 
+    // Upload file
     public String uploadFile(int id, MultipartFile file)  {
         if(findUserById(id).isEmpty()) {
             throw new NotFoundException("Không tồn tại user có id = " + id);
@@ -109,5 +110,30 @@ public class UserService {
 
         // Upload file
         return fileService.uploadFile(id, file);
+    }
+
+    // Xem file
+    public byte[] readFile(int id, String fileId) {
+        return fileService.readFile(id, fileId);
+    }
+
+    // Upload avatar
+    public String uploadAvatar(int id, MultipartFile file) {
+        // Kiểm tra user có tồn tại hay không
+        Optional<User> userOptional = findUserById(id);
+        if(userOptional.isEmpty()) {
+            throw new NotFoundException("Không tồn tại user có id = " + id);
+        }
+
+        // Lấy ra thông tin của user
+        User user = userOptional.get();
+
+        // Upload file
+        String filePath = uploadFile(id, file);
+
+        // Cập nhật lại avatar
+        user.setAvatar(filePath);
+
+        return filePath;
     }
 }

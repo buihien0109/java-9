@@ -2,6 +2,7 @@ package vn.techmaster.userbackend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.userbackend.dto.UserDto;
@@ -71,6 +72,10 @@ public class UserController {
     }
 
     // Cập nhật avatar
+    @PostMapping("/users/{id}/upload-avatar")
+    public String uploadAvatar(@PathVariable int id, @ModelAttribute("file") MultipartFile file) {
+        return userService.uploadAvatar(id, file);
+    }
 
     // Upload file
     @PostMapping("/users/{id}/files")
@@ -79,6 +84,10 @@ public class UserController {
     }
 
     // Xem file
+    @GetMapping(value = "/users/{id}/files/{fileId}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public byte[] readFile(@PathVariable int id, @PathVariable String fileId) {
+        return userService.readFile(id, fileId);
+    }
 
     // Lấy danh sách file của user
 
