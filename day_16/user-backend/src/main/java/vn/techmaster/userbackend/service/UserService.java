@@ -2,6 +2,7 @@ package vn.techmaster.userbackend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.userbackend.dto.UserDto;
 import vn.techmaster.userbackend.exception.NotFoundException;
 import vn.techmaster.userbackend.mapper.UserMapper;
@@ -22,6 +23,8 @@ public class UserService {
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private FileService fileService;
 
     // Tạo 1 số dữ liệu
     public UserService() {
@@ -97,5 +100,14 @@ public class UserService {
         // Nếu có -> generate chuỗi password ngẫu nhiên -> cập nhật password cho user -> trả về kết quả
         mailService.sendSimpleEmail("hien@techmaster.vn", "Quên mật khẩu", "111");
         return null;
+    }
+
+    public String uploadFile(int id, MultipartFile file)  {
+        if(findUserById(id).isEmpty()) {
+            throw new NotFoundException("Không tồn tại user có id = " + id);
+        }
+
+        // Upload file
+        return fileService.uploadFile(id, file);
     }
 }

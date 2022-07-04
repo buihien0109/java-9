@@ -3,6 +3,7 @@ package vn.techmaster.userbackend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.userbackend.dto.UserDto;
 import vn.techmaster.userbackend.request.UpdatePasswordRequest;
 import vn.techmaster.userbackend.request.UpdateUserRequest;
@@ -68,4 +69,18 @@ public class UserController {
     public String forgotPassword(@PathVariable int id) {
         return userService.forgotPassword(id);
     }
+
+    // Cập nhật avatar
+
+    // Upload file
+    @PostMapping("/users/{id}/files")
+    public String uploadFile(@PathVariable int id, @ModelAttribute("file") MultipartFile file) {
+        return userService.uploadFile(id, file);
+    }
+
+    // Xem file
+
+    // Lấy danh sách file của user
+
+    // Xóa file
 }
