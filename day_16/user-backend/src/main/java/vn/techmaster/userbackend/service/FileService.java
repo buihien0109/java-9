@@ -145,4 +145,26 @@ public class FileService {
 
         return filesPath;
     }
+
+    // Xóa file
+    public void deleteFile(int id, String fileId) {
+        // Lấy ra đường dẫn file tương ứng với user_id
+        Path userPath = rootDir.resolve(String.valueOf(id));
+
+        // Kiểm tra folder chứa file có tồn tại hay không
+        if(!Files.exists(userPath)) {
+            throw new NotFoundException("File " + fileId + " không tồn tại");
+        }
+
+        // Lấy ra đường dẫn file tương ứng với user_id và file_id
+        Path file = userPath.resolve(fileId);
+
+        // Kiểm tra file có tồn tại hay không
+        if(!file.toFile().exists()) {
+            throw new NotFoundException("File " + fileId + " không tồn tại");
+        }
+
+        // Tiến hành xóa file
+        file.toFile().delete();
+    }
 }

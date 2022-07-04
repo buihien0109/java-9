@@ -96,4 +96,8 @@ public class UserController {
     }
 
     // Xóa file
+    @DeleteMapping("/users/{id}/files/{fileId}")
+    public void deleteFile(@PathVariable int id, @PathVariable String fileId) {
+        userService.deleteFile(id, fileId);
+    }
 }

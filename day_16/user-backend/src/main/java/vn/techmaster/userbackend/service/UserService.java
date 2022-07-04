@@ -141,4 +141,9 @@ public class UserService {
     public List<String> getFiles(int id) {
         return fileService.getFiles(id);
     }
+
+    // Xóa file
+    public void deleteFile(int id, String fileId) {
+        fileService.deleteFile(id, fileId);
+    }
 }
