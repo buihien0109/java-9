@@ -136,4 +136,9 @@ public class UserService {
 
         return filePath;
     }
+
+    // Lấy danh sách file của user
+    public List<String> getFiles(int id) {
+        return fileService.getFiles(id);
+    }
 }

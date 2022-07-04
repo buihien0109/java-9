@@ -90,6 +90,10 @@ public class UserController {
     }
 
     // Lấy danh sách file của user
+    @GetMapping("/users/{id}/files")
+    public List<String> getFiles(@PathVariable int id) {
+        return userService.getFiles(id);
+    }
 
     // Xóa file
 }

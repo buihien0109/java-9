@@ -17,6 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FileService {
@@ -117,5 +121,28 @@ public class FileService {
         } catch (Exception e) {
             throw new RuntimeException("Không thể đọc file " + fileId);
         }
+    }
+
+    // Lấy danh sách file của user
+    public List<String> getFiles(int id) {
+        // Lấy ra đường dẫn file tương ứng với user_id
+        Path userPath = rootDir.resolve(String.valueOf(id));
+
+        // Kiểm tra xem đường dẫn file có tồn tại hay không
+        if(!Files.exists(userPath)) {
+            return new ArrayList<>();
+        }
+
+        // Lấy ra danh sách file tương ứng với user_id
+        List<File> files = List.of(userPath.toFile().listFiles());
+
+        // Lấy ra danh sách filePath
+        List<String> filesPath = files.stream()
+                .map(File::getName)
+                .sorted(Comparator.reverseOrder())
+                .map(file -> "/api/v1/users/" + id + "/files/" + file)
+                .toList();
+
+        return filesPath;
     }
 }
