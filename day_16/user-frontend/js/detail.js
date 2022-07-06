@@ -29,13 +29,13 @@ avatarEl.addEventListener("change", async function (event) {
         formData.append("file", file);
 
         // Gọi API
-        let res = await axios.post(`http://localhost:8080/api/v1/users/${userId}/upload-avatar`, formData)
+        let res = await axios.post(`http://localhost:8080/api/v1/users/${userId}/files`, formData)
 
         // Thêm vào mảng ban đầu, mới nhất thì cho lên đầu
         listImage.unshift(res.data);
 
         // Hiển thị lại trên giao diện
-        renderImg(listImage)
+        renderImageAndPagination(listImage);
     } catch (error) {
         console.log(error);
     }
@@ -51,11 +51,23 @@ btnModalImage.addEventListener("click", async () => {
         listImage = res.data;
 
         // Hiển thị ra ngoài giao diện
-        renderImg(listImage);
+        renderImageAndPagination(listImage);
     } catch (error) {
         console.log(error);
     }
 });
+
+// Hiển thị hình ảnh và phân trang
+const renderImageAndPagination = arr => {
+    $('.pagination-container').pagination({
+        dataSource: arr,
+        pageSize: 4,
+        className: 'paginationjs-theme-blue paginationjs-big',
+        callback: function (data) {
+            renderImg(data);
+        }
+    })
+}
 
 // Hiển thị danh sách hình ảnh ra ngoài giao diện
 function renderImg(arr) {
@@ -134,7 +146,7 @@ btnDeleteImage.addEventListener("click", async () => {
         listImage = listImage.filter(i => i != src);
 
         // Render lại giao diện
-        renderImg(listImage);
+        renderImageAndPagination(listImage);
 
         // disabled 2 nút "Chọn ảnh" và "Xóa ảnh"
         btnChoseImage.disabled = true;
