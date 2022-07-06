@@ -12,6 +12,10 @@ const btnDeleteImage = document.getElementById("btn-delete-image");
 
 const modelImageEl = document.getElementById("modal-image");
 
+const modelImageConfig = new bootstrap.Modal(modelImageEl, {
+    keyboard: false
+})
+
 // Khai báo biến
 let listImage = [];
 
@@ -61,7 +65,7 @@ function renderImg(arr) {
     arr.forEach(i => {
         html += `
             <div class="image-item" onclick="choseImage(this)">
-                <img src="http://localhost:8080${i}" alt="">
+                <img src="http://localhost:8080${i}" alt="" data-src=${i}>
             </div>
         `
     });
@@ -91,3 +95,51 @@ modelImageEl.addEventListener('hidden.bs.modal', function () {
     btnChoseImage.disabled = true;
     btnDeleteImage.disabled = true;
 })
+
+// Cập nhật avatar
+btnChoseImage.addEventListener("click", async function () {
+    try {
+        // Lấy ra ảnh đang được chọn
+        let imageSelected = document.querySelector(".selected img");
+
+        // Lấy URL của ảnh đang chọn
+        let src = imageSelected.dataset.src;
+
+        // Gọi API
+        let res = await axios.put(`http://localhost:8080/api/v1/users/${userId}/update-avatar`, {
+            avatar: src
+        });
+
+        // Đóng modal
+        modelImageConfig.hide();
+
+        // Hiển thị ảnh trên giao diện
+        avatarPreviewEl.src = "http://localhost:8080" + res.data;
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// Xóa ảnh
+btnDeleteImage.addEventListener("click", async () => {
+    try {
+        // Lấy ra ảnh đang được chọn
+        let imageSelected = document.querySelector(".selected img");
+
+        // Gửi API xóa ảnh
+        await axios.delete(imageSelected.src);
+
+        // Xóa ảnh trong mảng ban đầu
+        let src = imageSelected.dataset.src;
+        listImage = listImage.filter(i => i != src);
+
+        // Render lại giao diện
+        renderImg(listImage);
+
+        // disabled 2 nút "Chọn ảnh" và "Xóa ảnh"
+        btnChoseImage.disabled = true;
+        btnDeleteImage.disabled = true;
+    } catch (error) {
+        console.log(error);
+    }
+});

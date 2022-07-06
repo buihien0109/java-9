@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.techmaster.userbackend.dto.UserDto;
+import vn.techmaster.userbackend.request.UpdateAvatarRequest;
 import vn.techmaster.userbackend.request.UpdatePasswordRequest;
 import vn.techmaster.userbackend.request.UpdateUserRequest;
 import vn.techmaster.userbackend.service.UserService;
@@ -72,9 +73,9 @@ public class UserController {
     }
 
     // Cập nhật avatar
-    @PostMapping("/users/{id}/upload-avatar")
-    public String uploadAvatar(@PathVariable int id, @ModelAttribute("file") MultipartFile file) {
-        return userService.uploadAvatar(id, file);
+    @PutMapping("/users/{id}/update-avatar")
+    public String updateFile(@PathVariable int id, @RequestBody UpdateAvatarRequest request){
+        return userService.updateAvatar(id, request);
     }
 
     // Upload file

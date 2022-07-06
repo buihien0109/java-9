@@ -7,6 +7,7 @@ import vn.techmaster.userbackend.dto.UserDto;
 import vn.techmaster.userbackend.exception.NotFoundException;
 import vn.techmaster.userbackend.mapper.UserMapper;
 import vn.techmaster.userbackend.model.User;
+import vn.techmaster.userbackend.request.UpdateAvatarRequest;
 import vn.techmaster.userbackend.request.UpdatePasswordRequest;
 import vn.techmaster.userbackend.request.UpdateUserRequest;
 
@@ -118,7 +119,7 @@ public class UserService {
     }
 
     // Upload avatar
-    public String uploadAvatar(int id, MultipartFile file) {
+    public String updateAvatar(int id, UpdateAvatarRequest request) {
         // Kiểm tra user có tồn tại hay không
         Optional<User> userOptional = findUserById(id);
         if(userOptional.isEmpty()) {
@@ -128,13 +129,10 @@ public class UserService {
         // Lấy ra thông tin của user
         User user = userOptional.get();
 
-        // Upload file
-        String filePath = uploadFile(id, file);
-
         // Cập nhật lại avatar
-        user.setAvatar(filePath);
+        user.setAvatar(request.getAvatar());
 
-        return filePath;
+        return user.getAvatar();
     }
 
     // Lấy danh sách file của user
