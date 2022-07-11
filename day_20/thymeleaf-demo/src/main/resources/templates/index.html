@@ -7,11 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<ul>
-    <li><a th:href="@{/}">Home</a></li>
-    <li><a th:href="@{/about}">About</a></li>
-    <li><a th:href="@{/contact}">Contact</a></li>
-</ul>
+<div th:replace="~{/fragments/menu :: menu}"></div>
 <h1>Home page</h1>
 
 <h2>Giá trị của một biến sử dụng ${}</h2>

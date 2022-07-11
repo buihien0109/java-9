@@ -6,11 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<ul>
-    <li><a th:href="@{/}">Home</a></li>
-    <li><a th:href="@{/about}">About</a></li>
-    <li><a th:href="@{/contact}">Contact</a></li>
-</ul>
+<div th:replace="~{/fragments/menu :: menu}"></div>
 <h1>Contact page</h1>
 
 <h2>Giá trị của một biến sử dụng th:with</h2>
@@ -45,6 +41,66 @@
     </tbody>
 </table>
 
+<h2>Các phương thức hỗ trợ có sẵn</h2>
+<h2>List</h2>
+<table th:if="${not #lists.isEmpty(users)}">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.name}">Nguyễn Văn A</td>
+        <td th:text="${user.email}">a@gmail.com</td>
+    </tr>
+    </tbody>
+</table>
+<p th:if="${#lists.isEmpty(users)}">Không có user nào trong danh sách</p>
+
+<p th:text="|Số lượng user có trong danh sách là : ${#lists.size(users)}|"></p>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+    </thead>
+    <tbody th:with="userSort = ${#lists.sort(users, byId)}">
+    <tr th:each="user : ${userSort}">
+        <td th:text="${user.id}">1</td>
+        <td th:text="${user.name}">Nguyễn Văn A</td>
+        <td th:text="${user.email}">a@gmail.com</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>String</h2>
+<p th:text="|Nội dung là : ${message}|"></p>
+<p th:text="|Nội dung có trống hay không : ${#strings.isEmpty(message)}|"></p>
+<p th:text="|Message có chưa ký tự a hay không : ${#strings.contains(message, 'N')}|"></p>
+<p th:text="|Message có chưa ký tự a hay không : ${#strings.containsIgnoreCase(message, 'N')}|"></p>
+<p th:text="|Message có được bắt đầu = xin hay không : ${#strings.startsWith(message, 'xin')}|"></p>
+<p th:text="|In hoa : ${#strings.toUpperCase(message)}|"></p>
+
+<h2>Date</h2>
+<p th:text="${#dates.format(date, 'dd/MM/yyyy')}"></p>
+
+<h2>LocalDate</h2>
+<p th:text="${#temporals.format(localDate, 'dd/MM/yyyy')}"></p>
+
+<h3>Number</h3>
+<p th:text="${#numbers.formatInteger(price,3,'COMMA')}"></p>
+<p th:text="${#numbers.formatDecimal(number,3,'POINT',2,'COMMA')}"></p>
+
+<h2>Gọi Method</h2>
+<p th:text="|Tổng 2 số là : ${T(com.example.thymeleafdemo.util.Utils).sum(a, b)}|"></p>
 
 <script th:src="@{/js/main.js}"></script>
 </body>

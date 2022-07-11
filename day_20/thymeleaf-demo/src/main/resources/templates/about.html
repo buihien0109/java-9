@@ -6,11 +6,8 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<ul>
-    <li><a th:href="@{/}">Home</a></li>
-    <li><a th:href="@{/about}">About</a></li>
-    <li><a th:href="@{/contact}">Contact</a></li>
-</ul>
+<div th:replace="~{/fragments/menu :: menu}"></div>
+
 <h1>About page</h1>
 
 <!--Câu lệnh if-->

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{/fragments/menu :: menu}"></div>
+
+<th:block th:replace="~{/fragments/menu :: avatar(~{/fragments/menu :: #image1})}"></th:block>
+
+<th:block th:replace="~{/fragments/menu :: avatar(~{:: #para1})}"></th:block>
+
+
+<p id="para1">Nội dung 1</p>
+
+<p id="para2">Nội dung 2</p>
+
+<p id="para3">Nội dung 3</p>
+
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
